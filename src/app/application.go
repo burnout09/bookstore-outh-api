@@ -1,7 +1,6 @@
 package app
 
 import (
-	"github.com/burnout09/bookstore-outh-api/src/clients/cassandra"
 	"github.com/burnout09/bookstore-outh-api/src/domain/access_token"
 	"github.com/burnout09/bookstore-outh-api/src/http"
 	"github.com/burnout09/bookstore-outh-api/src/repository/db"
@@ -13,11 +12,11 @@ var(
 )
 
 func StartApplication() {
-	session, dbErr := cassandra.GetSession()
-	if dbErr != nil {
-		panic(dbErr)
-	}
-	session.Close()
+	//session, dbErr := cassandra.GetSession()
+	//if dbErr != nil {
+	//	panic(dbErr)
+	//}
+	//session.Close()
 
 	atHandler:=http.NewHandler(access_token.NewService(db.NewRepository()))
 
