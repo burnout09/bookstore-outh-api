@@ -1,6 +1,8 @@
 package access_token
 
 import (
+	"github.com/burnout09/bookstore-outh-api/src/utils/errors"
+	"strings"
 	"time"
 )
 
@@ -26,4 +28,23 @@ func GetNewAccessToken() *AccessToken {
 
 func (at AccessToken) IsExpired() bool {
 	return time.Unix(at.Expires, 0).Before(time.Now().UTC())
+}
+
+func (at *AccessToken) Validate() *errors.RestErr {
+	if len(strings.TrimSpace(at.AccessToken)) == 0 {
+		return errors.NewBadRequestError("invalid access token id")
+	}
+
+	if at.UserId <= 0 {
+		return errors.NewBadRequestError("invalid user id")
+	}
+
+	if at.ClientId <= 0 {
+		return errors.NewBadRequestError("invalid client id")
+	}
+
+	if at.Expires <= 0 {
+		return errors.NewBadRequestError("invalid expiration time")
+	}
+	return nil
 }
